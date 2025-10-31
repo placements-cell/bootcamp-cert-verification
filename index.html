@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Certificate Verification</title>
+<style>
+body { font-family: Arial; text-align: center; margin-top: 100px; }
+input { padding: 8px; width: 300px; }
+button { padding: 8px 15px; }
+</style>
+</head>
+<body>
+<h2>🔎 Verify Your Certificate</h2>
+<input id="hash" placeholder="Enter Certificate ID (Hash)" />
+<button onclick="verify()">Verify</button>
+<p id="result"></p>
+
+<script>
+async function verify() {
+  const hash = document.getElementById('hash').value.trim();
+  const res = await fetch('certificates.json');
+  const data = await res.json();
+  const cert = data.find(c => c.hash === hash);
+  const result = document.getElementById('result');
+  if (cert) {
+    result.innerHTML = `✅ Verified!<br>Name: ${cert.name}<br><a href="${cert.certificate_url}" target="_blank">View Certificate</a>`;
+  } else {
+    result.innerHTML = "❌ Invalid Certificate ID.";
+  }
+}
+</script>
+</body>
+</html>
