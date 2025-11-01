@@ -1,23 +1,30 @@
 [
   {
-    "name": "Mr./Ms. Shashwat Vishwakarma",
+    "name": "Shashwat Vishwakarma",
     "email": "shashwat0003@gmail.com",
     "code": "CRBC250250",
-    "hash": "QnVMrlV7in9KFjKPSN8be90BMOzq0Wb7zYJ3lo+7FNI=",
-    "certificate_url": "https://drive.google.com/file/d/1RrxvNXM5bx3DG4f5qNgM4vtYOG_XVwLE/view?usp=drivesdk"
+    "hash": "jEsKAMC5XQkXbQFSErD+wKRM32sOKOxQrFgX2TmYlTg=",
+    "certificate_url": "https://drive.google.com/file/d/1WMEwDTR6OHlz50m7AebUKT7cOby0wI7G/view?usp=drivesdk"
   },
   {
-    "name": "Mr./Ms. Rajat Dalal",
+    "name": "Rajat Dalal",
     "email": "rajatdalala69@gmail.com",
     "code": "CRBC250251",
-    "hash": "kyGlfMzZZfqEDgHa+huroQbMCYyEw4UAdZMNBcPi7sE=",
-    "certificate_url": "https://drive.google.com/file/d/11uD32Bgj_GkPbTkRsOpW8wcAWLtSbphk/view?usp=drivesdk"
+    "hash": "GK59QE7r42kWTAM4yZqXUoxy/xN+nrJpjmyNqqzbQlI=",
+    "certificate_url": "https://drive.google.com/file/d/1IgqdPs1FBmmCjuF8B9CFdgmKKvqHTeaP/view?usp=drivesdk"
   },
   {
-    "name": "Mr./Ms. Ankit maurya",
+    "name": "Ankit maurya",
     "email": "shashwatvishwakarmacs23@pgdav.du.ac.in",
     "code": "CRBC250090",
-    "hash": "Dste/JzRbd0dtS3hT5hlCw92J87k1w7G3CEmG6Hz3sU=",
-    "certificate_url": "https://drive.google.com/file/d/1KBKbesDnZnmBjEHI7TPtSltP9EIGEATQ/view?usp=drivesdk"
+    "hash": "4tFmuuip4hmYx7+f5i3NCczDtKZ2Rvo6R2/N5BSIniI=",
+    "certificate_url": "https://drive.google.com/file/d/14tqdP9MsGGc-VvHvU5a94UdDIH72Szum/view?usp=drivesdk"
+  },
+  {
+    "name": "Rida Jain",
+    "email": "ridaajain24@gmail.com",
+    "code": "CRBC250420",
+    "hash": "qY6qLlO/FJezmDAGycd7vL42HVgz0b27/Ez0ePhsPEw=",
+    "certificate_url": "https://drive.google.com/file/d/1ijRKDkOcqTS_HHF4lr7YiHrCYK_mG0y6/view?usp=drivesdk"
   }
 ]
