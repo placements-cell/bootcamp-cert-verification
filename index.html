@@ -2,70 +2,75 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PGDAV Certificate Verification</title>
+<title>Certificate Verification Portal</title>
 <style>
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: #f7f7f7;
-    text-align: center;
-    padding: 40px;
-  }
-  input, button {
-    padding: 10px;
-    margin: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-  button {
-    background: #007bff;
-    color: white;
-    cursor: pointer;
-  }
-  #result {
-    margin-top: 25px;
-    font-size: 16px;
-  }
+  body { font-family: Arial; text-align: center; margin-top: 100px; background: #f5f7fa; }
+  input, button { padding: 10px; margin: 5px; width: 280px; border-radius: 6px; border: 1px solid #ccc; }
+  button { width: 150px; cursor: pointer; background: #0066ff; color: white; border: none; }
+  button:hover { background: #004ecc; }
+  h2 { color: #333; }
+  #result { margin-top: 20px; font-size: 16px; }
 </style>
 </head>
 <body>
-<h2>PGDAV Certificate Verification Portal</h2>
-<p>Enter your Email or Certificate ID to verify and download your certificate.</p>
-<input type="text" id="search" placeholder="Enter your Email or CertCode" size="35">
-<button onclick="verifyCertificate()">Verify</button>
 
-<div id="result"></div>
+<h2>🎓 Certificate Verification Portal</h2>
+
+<!-- Verification by Hash -->
+<div>
+  <input id="hash" placeholder="Enter Certificate ID (Hash)" />
+  <button onclick="verifyByHash()">Verify</button>
+</div>
+
+<!-- Recovery by Name/Email -->
+<div style="margin-top: 30px;">
+  <input id="query" placeholder="Enter Name or Email to Recover" />
+  <button onclick="recoverByName()">Recover</button>
+</div>
+
+<p id="result"></p>
 
 <script>
-const DATA_URL = "PASTE_JSON_FILE_LINK_HERE"; // Link from Google Drive (jsonFile.getUrl())
+async function getData() {
+  const res = await fetch('certificates.json');
+  return await res.json();
+}
 
-async function verifyCertificate() {
-  const query = document.getElementById('search').value.trim().toLowerCase();
-  const resultDiv = document.getElementById('result');
-  resultDiv.innerHTML = "🔎 Searching...";
+async function verifyByHash() {
+  const hash = document.getElementById('hash').value.trim();
+  const result = document.getElementById('result');
+  if (!hash) return result.innerHTML = "⚠️ Please enter a hash.";
 
-  try {
-    const res = await fetch(DATA_URL);
-    const data = await res.json();
-    const match = data.find(item =>
-      item.email.toLowerCase() === query || item.certCode.toLowerCase() === query
-    );
+  const data = await getData();
+  const cert = data.find(c => c.hash === hash);
 
-    if (match) {
-      resultDiv.innerHTML = `
-        ✅ <b>Certificate Verified</b><br>
-        Name: ${match.name}<br>
-        Issue Date: ${new Date(match.issueDate).toDateString()}<br>
-        <a href="${match.fileLink}" target="_blank">📄 View Certificate</a><br>
-        🔗 Hash: ${match.hash.slice(0, 16)}...
-      `;
-    } else {
-      resultDiv.innerHTML = "❌ No certificate found for this email or code.";
-    }
-  } catch (err) {
-    resultDiv.innerHTML = "⚠️ Error fetching data.";
+  if (cert) {
+    result.innerHTML = `✅ Verified!<br><b>Name:</b> ${cert.name}<br>
+    <a href="${cert.certificate_url}" target="_blank">View Certificate</a>`;
+  } else {
+    result.innerHTML = "❌ Invalid Certificate ID.";
+  }
+}
+
+async function recoverByName() {
+  const query = document.getElementById('query').value.trim().toLowerCase();
+  const result = document.getElementById('result');
+  if (!query) return result.innerHTML = "⚠️ Please enter a name or email.";
+
+  const data = await getData();
+  const matches = data.filter(c =>
+    c.name.toLowerCase().includes(query) || c.email.toLowerCase().includes(query)
+  );
+
+  if (matches.length > 0) {
+    result.innerHTML = "<b>🔍 Found Certificates:</b><br>" + 
+      matches.map(c => `${c.name} — <a href="${c.certificate_url}" target="_blank">View</a>`)
+      .join("<br>");
+  } else {
+    result.innerHTML = "❌ No matching records found.";
   }
 }
 </script>
+
 </body>
 </html>
