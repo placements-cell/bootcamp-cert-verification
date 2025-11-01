@@ -2,30 +2,68 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Certificate Verification</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PGDAV Certificate Verification</title>
 <style>
-body { font-family: Arial; text-align: center; margin-top: 100px; }
-input { padding: 8px; width: 300px; }
-button { padding: 8px 15px; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #f7f7f7;
+    text-align: center;
+    padding: 40px;
+  }
+  input, button {
+    padding: 10px;
+    margin: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  button {
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  #result {
+    margin-top: 25px;
+    font-size: 16px;
+  }
 </style>
 </head>
 <body>
-<h2>🔎 Verify Your Certificate</h2>
-<input id="hash" placeholder="Enter Certificate ID (Hash)" />
-<button onclick="verify()">Verify</button>
-<p id="result"></p>
+<h2>PGDAV Certificate Verification Portal</h2>
+<p>Enter your Email or Certificate ID to verify and download your certificate.</p>
+<input type="text" id="search" placeholder="Enter your Email or CertCode" size="35">
+<button onclick="verifyCertificate()">Verify</button>
+
+<div id="result"></div>
 
 <script>
-async function verify() {
-  const hash = document.getElementById('hash').value.trim();
-  const res = await fetch('certificates.json');
-  const data = await res.json();
-  const cert = data.find(c => c.hash === hash);
-  const result = document.getElementById('result');
-  if (cert) {
-    result.innerHTML = `✅ Verified!<br>Name: ${cert.name}<br><a href="${cert.certificate_url}" target="_blank">View Certificate</a>`;
-  } else {
-    result.innerHTML = "❌ Invalid Certificate ID.";
+const DATA_URL = "PASTE_JSON_FILE_LINK_HERE"; // Link from Google Drive (jsonFile.getUrl())
+
+async function verifyCertificate() {
+  const query = document.getElementById('search').value.trim().toLowerCase();
+  const resultDiv = document.getElementById('result');
+  resultDiv.innerHTML = "🔎 Searching...";
+
+  try {
+    const res = await fetch(DATA_URL);
+    const data = await res.json();
+    const match = data.find(item =>
+      item.email.toLowerCase() === query || item.certCode.toLowerCase() === query
+    );
+
+    if (match) {
+      resultDiv.innerHTML = `
+        ✅ <b>Certificate Verified</b><br>
+        Name: ${match.name}<br>
+        Issue Date: ${new Date(match.issueDate).toDateString()}<br>
+        <a href="${match.fileLink}" target="_blank">📄 View Certificate</a><br>
+        🔗 Hash: ${match.hash.slice(0, 16)}...
+      `;
+    } else {
+      resultDiv.innerHTML = "❌ No certificate found for this email or code.";
+    }
+  } catch (err) {
+    resultDiv.innerHTML = "⚠️ Error fetching data.";
   }
 }
 </script>
